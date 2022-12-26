@@ -1,0 +1,126 @@
+#include<Stdio.h>
+#include<stdlib.h>
+
+struct process
+{
+    int pid,at,wt,bt,rt,rbt,ct,st;
+}ps[100];
+
+
+int compareAT(const void *a, const void *b)
+{
+    int x=((struct process*)a)->at;
+    int y=((struct process*)b)->at;
+    if(x<y)
+    {
+        return -1;
+
+    }
+    if(x>=y)
+    {
+        return 1;
+    }
+
+    
+}
+
+int findmax(int a,int b)
+    {
+        return(a>b?a:b);
+    }
+
+
+    int main()
+    {
+       
+
+         int n , tq ,i ;
+    printf("Enter n : ");
+    scanf("%d" , &n );
+
+    for(int i =0 ;i< n ;i++)
+    { 
+        
+        printf("Process %d at and bt : ", i+1);
+        scanf("%d%d" , &ps[i].at , &ps[i].bt);
+        ps[i].pid = i ;
+        ps[i].rbt = ps[i].bt;   //initial  remaining bt = bt 
+    }
+
+    printf("Enter the time qunata : ")    ;
+    scanf("%d" , &tq);
+
+
+    qsort((void *)ps,n,sizeof(struct process),compareAT);
+
+    int completed=0;
+        int current_time=0;
+
+
+        int visited[100]={0};
+
+        int index;
+
+        int queue[100];
+        int front =-1,rear =-1;
+
+        front =0;
+        rear=0;
+        queue[0]=0;
+        visited[0]=1;
+
+        while(completed !=n)
+        {
+            index=queue[front];
+            front++;
+
+            if(ps[index].rbt==ps[index].bt)
+            {
+                ps[index].st=findmax(ps[index].at,current_time);
+                
+                    current_time=ps[index].st;
+            }    
+
+                if(ps[index].rbt>tq)
+                {
+                    ps[index].rbt=ps[index].rbt-tq;
+                    current_time+=tq;
+                }
+
+                else
+                {
+                  current_time+=ps[index].rbt;
+                  ps[index].rbt=0;
+                  completed++;
+                  
+                }
+
+
+                ps[index].ct=current_time;
+
+
+                for(int i=0;i<n;i++)
+                {
+
+                    if(ps[i].rbt>0&&ps[i].at<=current_time&&visited[i]==0)
+                    {
+                        queue[++rear]=i;
+                        visited[i]=1;
+                    }
+
+
+                }
+                
+                if(ps[index].rbt>0)
+                {
+                    queue[++rear]=index;
+
+                }
+            }
+              for(int i=0;i<n;i++)
+              {
+              printf("Process %d\t%d\t%d\t%d\n" , ps[i].pid , ps[i].at , ps[i].bt , ps[i].ct);
+              }
+              return 0;
+  }
+          
