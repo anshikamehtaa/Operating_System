@@ -1,0 +1,26 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+int main()
+{
+    int track_no;
+    int sequence[track_no];
+    int head;
+    int head_moment=0;
+    printf("Enter the value of track number\n");
+    scanf("%d",&track_no);
+    printf("Enter the value of sequence\n");
+    for(int i=0;i<track_no;i++)
+    {
+        scanf("%d",&sequence[i]);
+    }
+    printf("Enter the value of head\n");
+    scanf("%d",&head);
+    for(int i=0;i<track_no;i++)
+    {
+        head_moment+=abs(head-sequence[i]);
+        head=sequence[i];
+    }
+    printf("Total head moment is %d",head_moment);
+    
+}
