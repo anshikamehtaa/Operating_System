@@ -1,0 +1,66 @@
+#include<stdio.h>
+int main()
+{
+      int i, n, total = 0, temp, counter = 0, time_quantum;
+      int wait_time = 0, tat = 0, arrival_time[10], burst_time[10], check[10];
+      float avg_wait_time, avg_tat;
+      printf("Enter Total Number of Processes\n");
+      scanf("%d", &n);
+      temp = n;
+      for(i = 0; i <n; i++)
+      {
+            printf("Enter Arrival Time: ");
+ 
+            scanf("%d",&arrival_time[i]);
+ 
+            printf("Enter Burst Time: ");
+ 
+            scanf("%d", &burst_time[i]);
+ 
+            check[i] = burst_time[i];
+      }
+ 
+      printf("Enter Time Quantum: ");
+      scanf("%d", &time_quantum);
+      printf("Process Burst Time Turnaround Time Waiting Time");
+      for(total = 0, i = 0; temp != 0;)
+      {
+            if(check[i] <= time_quantum && check[i] > 0)
+            {
+                  total = total + check[i];
+                  check[i] = 0;
+                  counter = 1;
+            }
+            else if(check[i] > 0)
+            {
+                  check[i] = check[i] - time_quantum;
+                  total = total + time_quantum;
+            }
+            if(check[i] == 0 && counter == 1)
+            {
+                  temp--;
+                  printf("Process%d  %d   %d   %d", i + 1, burst_time[i], total - arrival_time[i], total - arrival_time[i] - burst_time[i]);
+                  wait_time = wait_time + total - arrival_time[i] - burst_time[i];
+                  tat = tat + total - arrival_time[i];
+                  counter = 0;
+            }
+            if(i == n- 1)
+            {
+                  i = 0;
+            }
+            else if(arrival_time[i + 1] <= total)
+            {
+                  i++;
+            }
+            else
+            {
+                  i = 0;
+            }
+      }
+ 
+      avg_wait_time = wait_time*1.0/n;
+      avg_tat = tat*1.0/n;
+      printf("Average Waiting Time: %f", avg_wait_time);
+      printf("Avg Turnaround Time: %fn", avg_tat);
+      return 0;
+}
