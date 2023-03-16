@@ -39,7 +39,7 @@ int main()
     }
  }
 
- //gantt chart for completion time
+ //gantt chart for completion time is created
 ct[0]=at[0]+bt[0];
 for(int j=1;j<n;j++)
 {
